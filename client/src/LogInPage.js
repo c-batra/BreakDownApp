@@ -18,12 +18,15 @@ const LogInPage = () => {
   }, []);
 
   const signedIn = () => {
-    //TODO Password to be added as an extra condition
-    const allEmails = allUsers.map((element) => element.email);
-    if (allEmails.includes(email)) {
+    const loggedInUser = allUsers.filter(
+      (element) => element.email == email && element.password == password
+    );
+    if (loggedInUser.length) {
       navigate("/home", {
         state: {
           email: email,
+          userId: loggedInUser[0]._id,
+          userName: loggedInUser[0].first_name,
         },
       });
     } else {
@@ -40,19 +43,22 @@ const LogInPage = () => {
   };
   return (
     <Main>
-      <h3>Welcome to BreakDownApp - Break It Down.!</h3>
+      <Heading>Welcome to Splitter. Let's split it.!</Heading>
       <input
         type="email"
         placeholder="Email"
         onChange={(e) => changeEmail(e)}
         value={email}
+        style={{ height: 25 }}
       ></input>
       <br />
       <input
         id="confirmPassword"
         name="confirmPassword"
         type="password"
+        placeholder="Password"
         value={password}
+        style={{ height: 25 }}
         onChange={(e) => changePassword(e)}
         required
       />
@@ -74,6 +80,19 @@ const Main = styled.div`
 
 const Button = styled.button`
   padding: 10px;
-  width: 350px;
-  background-color: seagreen;
+  width: 250px;
+  box-shadow: 3px 5px #000000;
+  background-color: blue;
+  color: white;
+  font-weight: 800;
+  border-radius: 10;
+  cursor: pointer;
+`;
+
+const Heading = styled.span`
+  font-size: 30px;
+  margin: 15px;
+  font-weight: bolder;
+  color: blue;
+  font-family: "Brush Script MT", cursive;
 `;

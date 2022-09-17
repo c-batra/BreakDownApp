@@ -12,7 +12,7 @@ const CreateGroup = () => {
   const location = useLocation();
   const options = allUsers.map((element) => ({
     key: element._id,
-    label: element.first_name + " " + element.last_name,
+    value: element.first_name + " " + element.last_name,
   }));
 
   useEffect(() => {
@@ -26,27 +26,18 @@ const CreateGroup = () => {
 
   const navigate = useNavigate();
 
-  const membersSelect = () => {
-    console.log("We selected");
-  };
-
-  const membersRemove = () => {
-    console.log("We removed");
-  };
-
   const changeGroupName = (e) => {
     setGroupName(e.target.value);
   };
 
   const onCreateGroup = () => {
-    debugger;
     const body = {
       name: groupName,
       users: groupMembers,
+      created_at: new Date(),
     };
     fetch("/api/add-group", {
       method: "POST",
-      mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -54,21 +45,27 @@ const CreateGroup = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        navigate("/home");
+        navigate("/home", {
+          state: {
+            email: location.state.email,
+            userId: location.state.userId,
+            userName: location.state.userName,
+          },
+        });
       })
       .catch((err) => console.log(err));
   };
 
-  const handleSelect = (data) => {
+  const handleSelect = (e) => {
     //TODO To make it work when more users are selected
-    const datakeys = data.map((element) => element.key);
+    const groupUser = e.target.value;
     const loggedInUser = allUsers.filter(
       (element) => element.email == location.state.email
     )?.[0];
     if (groupMembers.includes(loggedInUser._id)) {
-      setGroupMembers([...groupMembers, datakeys[0]]);
+      setGroupMembers([...groupMembers, groupUser]);
     } else {
-      setGroupMembers([...groupMembers, loggedInUser._id, datakeys[0]]);
+      setGroupMembers([...groupMembers, loggedInUser._id, groupUser]);
     }
   };
   return (
@@ -85,14 +82,12 @@ const CreateGroup = () => {
       </div>
       <MembersDiv>
         Add Members:
-        <Select
-          options={options}
-          placeholder="Members"
-          value={groupMembers}
-          onChange={handleSelect}
-          isSearchable={true}
-          isMulti
-        />
+        <select onChange={(e) => handleSelect(e)}>
+          <option> Select Participant</option>
+          {options.map((element) => (
+            <option value={element.key}>{element.value}</option>
+          ))}
+        </select>
       </MembersDiv>
       <Button onClick={() => onCreateGroup()}>Create Group</Button>
     </Main>
@@ -115,8 +110,13 @@ const Main = styled.div`
 
 const Button = styled.button`
   width: 350px;
-  background-color: seagreen;
+  background-color: #306eff;
   margin: 20px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  font-size: 14px;
 `;
 
 const MembersDiv = styled.div`

@@ -7,11 +7,13 @@ const { Server } = require("socket.io");
 
 const {
   getUsers,
+  getGroups,
   addGroup,
-  updateGroup,
   addExpense,
-  updateExpense,
+  getExpenses,
+  getUserGroups,
   deleteExpense,
+  createUser,
 } = require("./handlers");
 
 express()
@@ -33,16 +35,15 @@ express()
   // .post("/api/create-user", createUser)
   // gets information of all users to add in specific group
   .get("/api/get-users", getUsers)
+  .get("/api/get-groups", getGroups)
+  .get("/api/get-user-groups/:id", getUserGroups)
+  .get("/api/get-expenses", getExpenses)
+
   //  posts new group information
   .post("/api/add-group", addGroup)
-  // //  update the group name and members
-  // .put("/api/update-group", updateGroup)
-  // //  add new expense
-  // .post("/api/add-expense", addExpense)
-  // //  update expense
-  // .put("/api/update-expense", updateExpense)
-  // // delete expense
-  // .delete("/api/delete-expense", deleteExpense)
+  .post("/api/add-expense", addExpense)
+  .post("/api/create-user", createUser)
+  .delete("/api/delete-expense", deleteExpense)
   // ---------------------------------
   // Nothing to modify below this line
 
