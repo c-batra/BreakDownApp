@@ -30,54 +30,21 @@ const getUsers = async (req, res) => {
   });
 };
 
-//create a new user
-// const addReservation = async (req, res) => {
-//   try {
-//     const { flight, seat, givenName, surname, email } = req.body;
-
-//     const reservation = {
-//       id: uuidv4(),
-//       flight,
-//       seat,
-//       givenName,
-//       surname,
-//       email,
-//     };
-
-//     MongoClient.connect(MONGO_URI, async (err, client) => {
-//       const db = client.db("SlingAirDB");
-//       await db.collection("reservations").insertOne(reservation);
-
-//       const queryObj = { _id: flight };
-//       const updateObj = { $set: { "seats.$[element].isAvailable": false } };
-//       const filterObj = { arrayFilters: [{ "element.id": seat }] };
-
-//       await db
-//         .collection("flights")
-//         .findOneAndUpdate(queryObj, updateObj, filterObj);
-
-//       return res.status(200).json({
-//         status: 200,
-//         data: reservation,
-//       });
-//     });
-//   } catch {
-//     res.status(400).json({
-//       status: 400,
-//       message: "Wrong reservation id, not found",
-//     });
-//   }
-// };
+// adding new user to database
 const createUser = async (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+
+  const user = {
+    id: uuidv4(),
+    first_name: firstName,
+    last_name: lastName,
+    email,
+    password,
+  };
   MongoClient.connect(MONGO_URI, async (err, client) => {
     try {
-      const { first_name, last_name, email } = req.body;
       const db = await client.db("BreakDownApp");
-      const users = await db
-        .collection("users")
-        .find({})
-        // .project({ _id: 0 })
-        .toArray();
+      const users = await db.collection("users").insertOne(user);
       res.status(200).json({
         status: 200,
         data: users,

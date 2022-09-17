@@ -304,20 +304,6 @@ const GroupExpenses = () => {
             ) : null
           )}
         </table>
-        {/* <button onClick={() => showBalances()}>Show Balances</button>
-        {userPaid > participantPaid ? (
-          <span>
-            {" "}
-            `${location.state.userName}` " account for " `$
-            {userPaid - participantPaid}`
-          </span>
-        ) : (
-          <span>
-            {" "}
-            `${location.state.userName}` " owes " `$
-            {participantPaid - userPaid}`
-          </span>
-        )} */}
       </div>
     </div>
   );

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { createPath, useLocation } from "react-router-dom";
+
+require("dotenv").config();
+const { ExtKey, ExtHost } = process.env;
+
 const Profile = () => {
   const [allGroups, setAllGroups] = useState([]);
   const [expenses, setExpenses] = useState([]);
@@ -38,8 +42,8 @@ const Profile = () => {
     const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "7fd95ed188msh02c90dca6068e41p1e0801jsn90c26a41f755",
-        "X-RapidAPI-Host": "currency-exchange.p.rapidapi.com",
+        "X-RapidAPI-Key": ExtKey,
+        "X-RapidAPI-Host": ExtHost,
       },
     };
 

@@ -10,7 +10,6 @@ import "./App.css";
 import store from "./store";
 import styled from "styled-components";
 const App = () => {
-  // fetch("localhost:8000/api/inventory");
 
   return (
     <div
@@ -19,7 +18,6 @@ const App = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        // backgroundColor: "#36454F",
         backgroundImage: "linear-gradient(#DCE0DF, #333366)",
         minHeight: "550px",
       }}
@@ -36,7 +34,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<LogInPage />}></Route>
-          {/* <Route exact path="/register" element={<Register />}</Route> */}
+          <Route exact path="/register" element={<Register />}></Route>
           <Route exact path="/home" element={<Homepage />}></Route>
           <Route exact path="/create-group" element={<CreateGroup />}></Route>
           <Route

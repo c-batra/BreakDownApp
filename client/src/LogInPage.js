@@ -16,7 +16,9 @@ const LogInPage = () => {
         setAllUsers(json.data);
       });
   }, []);
-
+  const toRegister = () => {
+    navigate("/register");
+  };
   const signedIn = () => {
     const loggedInUser = allUsers.filter(
       (element) => element.email == email && element.password == password
@@ -65,6 +67,7 @@ const LogInPage = () => {
       <br />
 
       <Button onClick={() => signedIn()}> Log In</Button>
+      <Button onClick={() => toRegister()}> Register</Button>
     </Main>
   );
 };
